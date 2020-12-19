@@ -13,7 +13,7 @@ const AboutUs = () => {
 			<div className="row" style={{ margin: "100px 0" }}>
 				<div className="col-lg-4">
 					<h3>Tanay Gargate</h3>
-					<p>USN: 2GI19CS140</p>
+					<p>USN: 2GI19CS162</p>
 				</div>
 				<div
 					onClick={redirect}
