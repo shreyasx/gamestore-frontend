@@ -54,7 +54,7 @@ const AboutUs = () => {
 			>
 				This app saves games into categories, and games can be filtered using
 				categories. The user could search based on the category they select.
-				This has not been implememnted yet, but will be soon. There's also an
+				This has not been implemented yet, but will be soon. There's also an
 				admin panel to make/update categories/products. The source code is
 				available on{" "}
 				<a target="blank" href="https://github.com/shreyasx/gamingstore">
