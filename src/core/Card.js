@@ -5,6 +5,7 @@ import { addItemToCart, removeItemFromCart } from "./helper/carthelper";
 import { isAuthenticated } from "../auth/helper";
 
 const Card = ({
+	cart,
 	product,
 	addtoCart = true,
 	removeFromCart = false,
@@ -67,7 +68,27 @@ const Card = ({
 		);
 	};
 
-	return (
+	return cart ? (
+		<div
+			id={"carttt"}
+			style={{ padding: "50px", marginLeft: "10px" }}
+			className="card text-white bg-dark border border-info"
+		>
+			<div className="card-header lead">{cardTitle}</div>
+			<div className="card-body">
+				{getARedirect(redirect)}
+				<Imagehelper product={product} />
+				<p className="lead bg-success font-weight-normal text-wrap">
+					{cardDescription}
+				</p>
+				<p className="btn btn-success rounded  btn-sm px-4">$ {cardPrice}</p>
+				<div className="row">
+					<div className="col-12">{showAddToCart()}</div>
+					<div className="col-12">{showRemoveFromCart()}</div>
+				</div>
+			</div>
+		</div>
+	) : (
 		<div
 			style={{ padding: "20px", margin: "10px" }}
 			className="card text-white bg-dark border border-info"
