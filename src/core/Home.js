@@ -3,9 +3,11 @@ import "../styles.css";
 import Base from "./Base";
 import Card from "./Card";
 import { getProducts } from "./helper/coreapicalls";
+import { API } from "../backend";
 
 export default function Home() {
 	const [products, setProducts] = useState([]);
+	const [categories, setCategories] = useState([]);
 	const [error, setError] = useState(false);
 	const [loading, setLoading] = useState(true);
 
@@ -20,8 +22,31 @@ export default function Home() {
 		});
 	};
 
+	const categoryChange = category => {
+		setLoading(true);
+		if (category === "All") {
+			loadAllProducts();
+			return;
+		}
+		fetch(`${API}/getProducts?categ=${category}`)
+			.then(re => re.json())
+			.then(resp => {
+				setProducts(resp);
+				setLoading(false);
+			})
+			.catch(console.log);
+	};
+
+	const getCategories = () => {
+		fetch(`${API}/getCategories`)
+			.then(r => r.json())
+			.then(resp => setCategories(resp))
+			.catch(console.log);
+	};
+
 	useEffect(() => {
 		loadAllProducts();
+		getCategories();
 	}, []);
 
 	return (
@@ -29,6 +54,51 @@ export default function Home() {
 			<h1 className="text-white">Our Games Collection</h1>
 			<div className="row text-center">
 				{error ? error : ""}
+				{categories.length > 0 ? (
+					<h2 style={{ margin: "20px" }} className="text-white">
+						{"Pick a Category: "}&nbsp;&nbsp;&nbsp;
+						<button
+							className="btn booboo btn-success"
+							onClick={() => {
+								var buttons = document.querySelectorAll(".booboo");
+								for (var index = 0; index < buttons.length; index++) {
+									buttons[index].classList.remove("btn-success");
+									buttons[index].classList.add("btn-outline-success");
+								}
+								document.activeElement.classList.remove("btn-outline-success");
+								document.activeElement.classList.add("btn-success");
+								categoryChange("All");
+							}}
+						>
+							All Games
+						</button>
+						&nbsp;&nbsp;
+						{categories.map((c, i) => (
+							<span key={i + 99}>
+								<button
+									className="btn booboo btn-outline-success"
+									onClick={() => {
+										var buttons = document.querySelectorAll(".booboo");
+										for (var index = 0; index < buttons.length; index++) {
+											buttons[index].classList.remove("btn-success");
+											buttons[index].classList.add("btn-outline-success");
+										}
+										document.activeElement.classList.remove(
+											"btn-outline-success"
+										);
+										document.activeElement.classList.add("btn-success");
+										categoryChange(c.name);
+									}}
+								>
+									{c.name}
+								</button>
+								&nbsp;&nbsp;
+							</span>
+						))}
+					</h2>
+				) : (
+					""
+				)}
 				{loading ? (
 					<>
 						<img
@@ -40,23 +110,6 @@ export default function Home() {
 					</>
 				) : (
 					<>
-						<h2 style={{ margin: "20px" }} class="text-white">
-							{/* {"Pick a Category: "}&nbsp;&nbsp;&nbsp;
-							<input type="radio" id="male" name="gender" value="male" />
-							<label for="male">Male</label>&nbsp;&nbsp;&nbsp;
-							<input type="radio" id="female" name="gender" value="female" />
-							<label for="female">Female</label>&nbsp;&nbsp;&nbsp;
-							<input type="radio" id="other" name="gender" value="other" />
-              <label for="other">Other</label> 
-              OPTION 2:
-							{"Pick a Category: "}&nbsp;&nbsp;&nbsp;
-							<button className="btn btn-outline-success">Male</button>
-							&nbsp;&nbsp;
-							<button className="btn btn-outline-success">Male</button>
-							&nbsp;&nbsp;
-							<button className="btn btn-outline-success">Male</button>
-							&nbsp;&nbsp; */}
-						</h2>
 						<div className="row">
 							{products.map((product, index) => {
 								return (
