@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const redirect = () => (window.location.href = "https://shreyasx.github.io/");
+const redirect = () =>
+	(window.location.href = "https://shreyasjamkhandi.tech/");
 
 const AboutUs = () => {
 	return (
